@@ -111,3 +111,23 @@ INSERT INTO elements VALUES
 (98, 98, 12, 7, 'Solid', 'Actinide', 2770, 1325),
 (99, 99, 13, 7, 'Solid', 'Actinide', 2900, 1268),
 (100, 100, 14, 7, 'Solid', 'Actinide', 2900, 1173);
+
+INSERT INTO elements VALUES
+(104, 104, 4, 7, 'Solid', 'Transition metal', 5800, 3070), -- Rutherfordium
+(105, 105, 5, 7, 'Solid', 'Transition metal', 5670, 2830), -- Dubnium
+(106, 106, 6, 7, 'Solid', 'Transition metal', 6200, 3290), -- Seaborgium
+(107, 107, 7, 7, 'Solid', 'Transition metal', 6200, 3300), -- Bohrium
+(108, 108, 8, 7, 'Solid', 'Transition metal', 5800, 2710), -- Hassium
+(109, 109, 9, 7, 'Solid', 'Transition metal', 5800, 2780), -- Meitnerium
+(110, 110, 10, 7, 'Solid', 'Transition metal', 5800, 2720), -- Darmstadtium
+(111, 111, 11, 7, 'Solid', 'Transition metal', 5800, 2730), -- Roentgenium
+(112, 112, 12, 7, 'Solid', 'Post-transition metal', 5800, 2710), -- Copernicium
+(113, 113, 13, 7, 'Solid', 'Post-transition metal', 5800, 316), -- Nihonium
+(114, 114, 14, 7, 'Solid', 'Post-transition metal', 5800, 324), -- Flerovium
+(115, 115, 15, 7, 'Solid', 'Post-transition metal', 5800, 303), -- Moscovium
+(116, 116, 16, 7, 'Solid', 'Post-transition metal', 5800, 330), -- Livermorium
+(117, 117, 17, 7, 'Solid', 'Halogen', 5800, 302), -- Tennessine
+(118, 118, 18, 7, 'Gas', 'Noble gas', 5800, 350), -- Oganesson
+(101, 101, 7, 7, 'Solid', 'Actinide', 4175, 912), -- Mendelevium
+(102, 102, 8, 7, 'Solid', 'Actinide', 3900, 1132), -- Nobelium
+(103, 103, 9, 7, 'Solid', 'Actinide', 3500, 912); -- Lawrencium
