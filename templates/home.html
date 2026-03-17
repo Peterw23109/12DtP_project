@@ -8,8 +8,38 @@
     <h1>
         Periodic Guess
     </h1>
-    <form method="" action="/">
-        <input type="text" name="element" placeholder="Type element name">
-    </form>
+        <form method="POST" action="/">
+            <input type="text" name="element" placeholder="Type element name">
+        </form>
+    <section class = "column">
+        <div>Element_Symbol</div>
+        <div>Atomic Num</div>
+        <div>Group</div>
+        <div>Period</div>
+        <div>State</div>
+        <div>Category</div>
+        <div>Boiling Point</div>
+        <div>Melting Point</div>
+    </section>
+    <section class = "column">
+        {% if result %}
+            {% for element in result %}
+                <div> {{element[0]}}</div>
+                <div> {{element[1]}}</div>
+                <div> {{element[2]}}</div>
+                <div> {{element[3]}}</div>
+                <div> {{element[4]}}</div>
+                <div> {{element[5]}}</div>
+                <div> {{element[6]}}</div>
+                <div> {{element[7]}}</div>
+            {% endfor %}
+    {% else %}
+        <p>No element found.</p>
+    {% endif %}
+    </section>
+        
+        
+
+    </div>
 </body>
 </html>  

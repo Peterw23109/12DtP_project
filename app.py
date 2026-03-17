@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template
+from flask import Flask, g, render_template, request
 import sqlite3
 
 DATABASE = 'element.db'
@@ -28,6 +28,18 @@ def query_db(query, args=(), one=False):
 def home():
     sql = "SELECT * FROM Element"
     result = query_db(sql)
+    return render_template("home.html", result=result)
+
+@app.route('/', methods=["GET", "POST"])
+def element():
+    result = [] 
+    if request.method == "POST":
+        element = request.form["element"]
+        sql = "SELECT * FROM Element WHERE Element_ID = ?"
+        result = query_db(sql, (element,), True)
+        row = query_db(sql, (element,), True)  
+        if row:
+            result = [row]
     return render_template("home.html", result=result)
 
 if __name__ == "__main__":
