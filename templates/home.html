@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel = "stylesheet" href = "{{url_for('static', filename='style.css')}}">
-    <title>  Periodic Guess </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Periodic Guess</title>
 </head>
 <body>
-    <h1>
-        Periodic Guess
-    </h1>
-        <form method="POST" action="/">
-            <input type="text" name="element" placeholder="Type element name">
-        </form>
-    <section class = "column">
-        <div>Element_Symbol</div>
+    <h1>Periodic Guess</h1>
+    
+    <form method="POST" action="/">
+        <input type="text" name="element" placeholder="Type element name">
+        <button type="submit">Search</button>
+    </form>
+    
+        <!-- Headers -->
+    <div class="column">
+        <div>Element</div>
         <div>Atomic Num</div>
         <div>Group</div>
         <div>Period</div>
@@ -20,26 +22,28 @@
         <div>Category</div>
         <div>Boiling Point</div>
         <div>Melting Point</div>
-    </section>
-    <section class = "column">
-        {% if result %}
-            {% for element in result %}
-                <div> {{element[0]}}</div>
-                <div> {{element[1]}}</div>
-                <div> {{element[2]}}</div>
-                <div> {{element[3]}}</div>
-                <div> {{element[4]}}</div>
-                <div> {{element[5]}}</div>
-                <div> {{element[6]}}</div>
-                <div> {{element[7]}}</div>
-            {% endfor %}
-    {% else %}
-        <p>No element found.</p>
-    {% endif %}
-    </section>
-        
-        
-
     </div>
+
+    <!-- Data -->
+    {% if result %}
+        {% for element in result %}
+            <div class="column">
+                <div>{{ element['Element_ID'] }}</div>
+                <div>{{ element['Atomic_number'] }}</div>
+                <div>{{ element['Group_number'] }}</div>
+                <div>{{ element['Period_number'] }}</div>
+                <div>{{ element['State'] }}</div>
+                <div>{{ element['Category'] }}</div>
+                <div>{{ element['BoilingPoint'] }}</div>
+                <div>{{ element['MeltingPoint'] }}</div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="row">
+            <div colspan="8">No element found.</div>
+        </div>
+    {% endif %}
+
+    
 </body>
-</html>  
+</html>

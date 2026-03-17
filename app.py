@@ -24,22 +24,19 @@ def query_db(query, args=(), one=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
-@app.route('/')
-def home():
-    sql = "SELECT * FROM Element"
-    result = query_db(sql)
-    return render_template("home.html", result=result)
-
 @app.route('/', methods=["GET", "POST"])
-def element():
-    result = [] 
+def home():
+    result = []
     if request.method == "POST":
-        element = request.form["element"]
-        sql = "SELECT * FROM Element WHERE Element_ID = ?"
-        result = query_db(sql, (element,), True)
-        row = query_db(sql, (element,), True)  
+        Element_ID = request.form.get("element")
+        sql = "SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE"
+        row = query_db(sql, (Element_ID,), True)
         if row:
-            result = [row]
+            result = [row] 
+    else:
+        sql = "SELECT * FROM Element"
+        result = query_db(sql)
+    
     return render_template("home.html", result=result)
 
 if __name__ == "__main__":
