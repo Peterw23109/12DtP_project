@@ -52,17 +52,20 @@ def home():
             random_element = query_db("SELECT Element_ID FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
             RANDOM_SYMBOL = random_element['Element_ID']
 
+            return render_template("result.html", random_symbol=Element_ID)
+
+
         sql = "SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE"
         row = query_db(sql, (Element_ID,), True)
         if row:
             result = [row]
 
     else:
-        sql = "SELECT * FROM Element"
-        result = query_db(sql)
+        result = []
 
 
     return render_template("home.html", result=result, random_symbol=RANDOM_SYMBOL)
+
 if __name__ == "__main__":
     app.run(debug=True)
 
