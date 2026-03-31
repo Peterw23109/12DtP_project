@@ -6,45 +6,11 @@
 </head>
 <body>
     <h1>Periodic Guess</h1>
-    
-    <form method="POST" action="/">
-        <input type="text" name="element" placeholder="Type element name">
-        <button type="submit">Search</button>
-    </form>
-    
-        <!-- Headers -->
-    <div class="column">
-        <div>Element</div>
-        <div>Atomic Num</div>
-        <div>Group</div>
-        <div>Period</div>
-        <div>State</div>
-        <div>Category</div>
-        <div>Boiling Point</div>
-        <div>Melting Point</div>
-    </div>
+    <h1> Welcome to Periodic Guess!</h1>
 
-    <!-- Data -->
-    {% if result %}
-        {% for element in result %}
-            <div class="column">
-                <div>{{ element['Element_ID'] }}</div>
-                <div>{{ element['Atomic_number'] }}</div>
-                <div>{{ element['Group_number'] }}</div>
-                <div>{{ element['Period_number'] }}</div>
-                <div>{{ element['State'] }}</div>
-                <div>{{ element['Category'] }}</div>
-                <div>{{ element['BoilingPoint'] }}</div>
-                <div>{{ element['MeltingPoint'] }}</div>
-                <div>{{ random_symbol }}</div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <div class="row">
-            <div colspan="8">No element found.</div>
-        </div>
-    {% endif %}
-
-    
+    <p>Try to guess the element based on its properties! You can search for an element by typing its name in the search box below. If you want to play the game, just click the "Play Game" button and start guessing!</p>
+    <a href="{{ url_for('quiz') }}">
+        <button>Play Quiz</button>
+    </a>
 </body>
 </html>
