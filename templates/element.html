@@ -29,13 +29,27 @@
         {% for element in result %}
             <div class="column">
                 <div>{{ element['Element_ID'] }}</div>
-                <div>{{ element['Atomic_number'] }}</div>
-                <div>{{ element['Group_number'] }}</div>
-                <div>{{ element['Period_number'] }}</div>
-                <div>{{ element['State'] }}</div>
-                <div>{{ element['Category'] }}</div>
-                <div>{{ element['Boilingpoint'] }}</div>
-                <div>{{ element['Meltingpoint'] }}</div>
+                <div class = "{% if target and element['Atomic_number']|string == target['Atomic_number']|string %}green{% else %}red{% endif %}">
+                    {{ element['Atomic_number'] }}
+                </div>
+                <div class = "{% if target and element['Group_number']|string == target['Group_number']|string %}green{% else %}red{% endif %}">
+                    {{ element['Group_number'] }}
+                </div>
+                <div class = "{% if target and element['Period_number']|string == target['Period_number']|string %}green{% else %}red{% endif %}">
+                    {{ element['Period_number'] }}
+                </div>
+                <div class = "{% if target and element['State']|string == target['State']|string %}green{% else %}red{% endif %}">
+                    {{ element['State'] }}
+                </div>
+                <div class = "{% if target and element['Category']|string == target['Category']|string %}green{% else %}red{% endif %}">
+                    {{ element['Category'] }}
+                </div>
+                <div class = "{% if target and element['Boilingpoint']|string == target['Boilingpoint']|string %}green{% else %}red{% endif %}">
+                    {{ element['Boilingpoint'] }}
+                </div>
+                <div class = "{% if target and element['Meltingpoint']|string == target['Meltingpoint']|string %}green{% else %}red{% endif %}">
+                    {{ element['Meltingpoint'] }}
+                </div>
                 <div>{{ random_symbol }}</div>
             </div>
         {% endfor %}

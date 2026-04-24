@@ -37,29 +37,24 @@ def quiz():
 
     global RANDOM_SYMBOL
 
+    
     if "guesses" not in session:
         session["guesses"] = []
-
-    if request.method == "POST":
-        Element_ID = request.form.get("element")
-        sql = "SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE"
-        row = query_db(sql, (Element_ID,), True)
-        if row:
-            guesses = session["guesses"]
-            guesses.append(dict(row))
-            session["guesses"] = guesses
-    else:
-        sql = "SELECT * FROM Element"
-        result = query_db(sql)
 
     if RANDOM_SYMBOL is None:
         random_element = query_db("SELECT Element_ID FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
         RANDOM_SYMBOL = random_element['Element_ID']
+    target_row = query_db("SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE", (RANDOM_SYMBOL,), one=True)
 
     if request.method == "POST":
         Element_ID = request.form.get("element")
+        row = query_db("SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE",(Element_ID,),True)
+        if row:
+            guesses = session["guesses"]
+            guesses.append(dict(row))
+            session["guesses"] = guesses
 
-    
+
         if Element_ID and Element_ID.lower() == RANDOM_SYMBOL.lower():
             session["guesses"] = []
             random_element = query_db( "SELECT Element_ID FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
@@ -67,7 +62,7 @@ def quiz():
             return render_template("result.html", answer=Element_ID)
 
 
-    return render_template("element.html", result=session["guesses"], random_symbol=RANDOM_SYMBOL)
+    return render_template("element.html", result=session["guesses"], random_symbol=RANDOM_SYMBOL,target=target_row)
 
 
 
