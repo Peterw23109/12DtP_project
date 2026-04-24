@@ -1,10 +1,10 @@
-from flask import Flask, g, render_template, request, flash, session, redirect
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask import Flask, g, render_template, request,session
 import sqlite3
 
 DATABASE = 'element.db'
 RANDOM_SYMBOL = None
 app = Flask(__name__)
+app.secret_key = "my_secret_key"
 
 def get_db():
     db = getattr(g, '_database', None)
@@ -33,16 +33,21 @@ def index():
 
 @app.route('/quiz', methods=["GET", "POST"])
 def quiz():
-    result = []
-    
+
 
     global RANDOM_SYMBOL
+
+    if "guesses" not in session:
+        session["guesses"] = []
+
     if request.method == "POST":
         Element_ID = request.form.get("element")
         sql = "SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE"
         row = query_db(sql, (Element_ID,), True)
         if row:
-            result = [row]
+            guesses = session["guesses"]
+            guesses.append(dict(row))
+            session["guesses"] = guesses
     else:
         sql = "SELECT * FROM Element"
         result = query_db(sql)
@@ -56,22 +61,15 @@ def quiz():
 
     
         if Element_ID and Element_ID.lower() == RANDOM_SYMBOL.lower():
-            random_element = query_db("SELECT Element_ID FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
+            session["guesses"] = []
+            random_element = query_db( "SELECT Element_ID FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
             RANDOM_SYMBOL = random_element['Element_ID']
-
-            return render_template("element.html", random_symbol=Element_ID)
-
-
-        sql = "SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE"
-        row = query_db(sql, (Element_ID,), True)
-        if row:
-            result = [row]
-
-    else:
-        result = []
+            return render_template("result.html", answer=Element_ID)
 
 
-    return render_template("element.html", result=result, random_symbol=RANDOM_SYMBOL)
+    return render_template("element.html", result=session["guesses"], random_symbol=RANDOM_SYMBOL)
+
+
 
 
 if __name__ == "__main__":

@@ -25,7 +25,7 @@
     </div>
 
     <!-- Data -->
-    {% if result %}
+    {% if result%}
         {% for element in result %}
             <div class="column">
                 <div>{{ element['Element_ID'] }}</div>
@@ -34,8 +34,8 @@
                 <div>{{ element['Period_number'] }}</div>
                 <div>{{ element['State'] }}</div>
                 <div>{{ element['Category'] }}</div>
-                <div>{{ element['BoilingPoint'] }}</div>
-                <div>{{ element['MeltingPoint'] }}</div>
+                <div>{{ element['Boilingpoint'] }}</div>
+                <div>{{ element['Meltingpoint'] }}</div>
                 <div>{{ random_symbol }}</div>
             </div>
         {% endfor %}
