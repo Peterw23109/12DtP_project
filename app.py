@@ -33,11 +33,7 @@ def index():
 
 @app.route('/quiz', methods=["GET", "POST"])
 def quiz():
-
-
     global RANDOM_SYMBOL
-
-    
     if "guesses" not in session:
         session["guesses"] = []
 
@@ -51,9 +47,8 @@ def quiz():
         row = query_db("SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE",(Element_ID,),True)
         if row:
             guesses = session["guesses"]
-            guesses.append(dict(row))
+            guesses.insert(0, dict(row))
             session["guesses"] = guesses
-
 
         if Element_ID and Element_ID.lower() == RANDOM_SYMBOL.lower():
             session["guesses"] = []

@@ -31,6 +31,13 @@
                 <div>{{ element['Element_ID'] }}</div>
                 <div class = "{% if target and element['Atomic_number']|string == target['Atomic_number']|string %}green{% else %}red{% endif %}">
                     {{ element['Atomic_number'] }}
+                    {% if target %}
+                        {% if element['Atomic_number'] < target['Atomic_number'] %}
+                            ↑
+                        {% elif element['Atomic_number'] > target['Atomic_number'] %}
+                            ↓
+                        {% endif %}
+                    {% endif %}
                 </div>
                 <div class = "{% if target and element['Group_number']|string == target['Group_number']|string %}green{% else %}red{% endif %}">
                     {{ element['Group_number'] }}
@@ -46,11 +53,24 @@
                 </div>
                 <div class = "{% if target and element['Boilingpoint']|string == target['Boilingpoint']|string %}green{% else %}red{% endif %}">
                     {{ element['Boilingpoint'] }}
+                    {% if target %}
+                        {% if element['Boilingpoint'] < target['Boilingpoint'] %}
+                            ↑
+                        {% elif element['Boilingpoint'] > target['Boilingpoint'] %}
+                            ↓
+                        {% endif %}
+                    {% endif %}
                 </div>
                 <div class = "{% if target and element['Meltingpoint']|string == target['Meltingpoint']|string %}green{% else %}red{% endif %}">
                     {{ element['Meltingpoint'] }}
+                    {% if target %}
+                        {% if element['Meltingpoint'] < target['Meltingpoint'] %}
+                            ↑
+                        {% elif element['Meltingpoint'] > target['Meltingpoint'] %}
+                            ↓
+                        {% endif %}
+                    {% endif %}
                 </div>
-                <div>{{ random_symbol }}</div>
             </div>
         {% endfor %}
     {% else %}
