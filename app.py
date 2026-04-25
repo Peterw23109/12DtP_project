@@ -47,8 +47,10 @@ def quiz():
         row = query_db("SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE",(Element_ID,),True)
         if row:
             guesses = session["guesses"]
-            guesses.insert(0, dict(row))
-            session["guesses"] = guesses
+            names = [g["Element_ID"].lower() for g in guesses]
+            if Element_ID.lower() not in names:
+                guesses.insert(0, dict(row))
+                session["guesses"] = guesses
 
         if Element_ID and Element_ID.lower() == RANDOM_SYMBOL.lower():
             session["guesses"] = []
