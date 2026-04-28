@@ -8,11 +8,10 @@
     <h1>Periodic Guess</h1>
     
     <form method="POST" action="/quiz">
-        <input type="text" name="element" placeholder="Type element name">
+        <input type="text" name="element" placeholder="{{ invalid if invalid else 'Type element name' }}">
         <button type="submit">Search</button>
     </form>
     
-        <!-- Headers -->
     <div class="column">
         <div>Element</div>
         <div>Atomic Num</div>
@@ -24,7 +23,6 @@
         <div>Melting Point</div>
     </div>
 
-    <!-- Data -->
     {% if result%}
         {% for element in result %}
             <div class="column">
@@ -81,7 +79,5 @@
             <div colspan="8">No element found.</div>
         </div>
     {% endif %}
-
-    
 </body>
 </html>

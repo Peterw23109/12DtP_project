@@ -33,6 +33,7 @@ def index():
 
 @app.route('/quiz', methods=["GET", "POST"])
 def quiz():
+    invalid = None
     global RANDOM_SYMBOL
     if "guesses" not in session:
         session["guesses"] = []
@@ -52,6 +53,9 @@ def quiz():
                 guesses.insert(0, dict(row))
                 session["guesses"] = guesses
 
+        if not row:
+            invalid = "Invalid Element. Please try again."
+
         if Element_ID and Element_ID.lower() == RANDOM_SYMBOL.lower():
             session["guesses"] = []
             random_element = query_db( "SELECT Element_ID FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
@@ -59,10 +63,7 @@ def quiz():
             return render_template("result.html", answer=Element_ID)
 
 
-    return render_template("element.html", result=session["guesses"], random_symbol=RANDOM_SYMBOL,target=target_row)
-
-
-
+    return render_template("element.html", result=session["guesses"], random_symbol=RANDOM_SYMBOL,target=target_row, invalid=invalid)
 
 if __name__ == "__main__":
     app.run(debug=True)
