@@ -41,7 +41,7 @@ button {
 }
 .column, .grid {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
+    grid-template-columns: repeat(8, 1fr);
     max-width: 1200px;
     margin: 10px auto;
     padding: 10px;
@@ -92,6 +92,26 @@ p{
     border-radius: 6px;
     font-family: inherit;
         
+}
+.hint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.hint-link {
+    color: #1e3a8a;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.hint-disabled {
+    color: #9ca3af;
+    cursor: not-allowed;
+    font-weight: bold;
+    margin-bottom: 6px;
 }
 .hint-container {
     width: min(100%, 960px);

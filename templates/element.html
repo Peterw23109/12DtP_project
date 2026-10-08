@@ -6,14 +6,18 @@
 </head>
 <body>
     <h1>Periodic Guess</h1>
-    <div class = "hint">
-        <a href="{{ url_for('hint') }}">Hint(Periodic Table)</a>
+    <div class="hint">
+        {% if remaining and remaining > 0 %}
+            <a href="{{ url_for('hint') }}" class="hint-link">Hint (Periodic Table)</a>
+        {% else %}
+            <span class="hint-disabled">Hint</span>
+        {% endif %}
         <p>Hints left: {{ remaining }}</p>
     </div>
     
     <form method="POST" action="/quiz">
         <input type="text" name="element" placeholder="{{ invalid if invalid else 'Type element name' }}">
-        <button type="submit">Search</button>
+        <button type="submit">Guess</button>
     </form>
     
     <div class="grid">
@@ -25,7 +29,6 @@
         <div>Category</div>
         <div>Boiling Point</div>
         <div>Melting Point</div>
-        <div>Symbol</div>
 
         {% if result %}
             {% for element in result %}
@@ -64,8 +67,8 @@
                         {% endif %}
                     {% endif %}
                 </div>
-                <div>{{ element['random_symbol'] }}</div>
-            {% endfor %}
+                
+                {% endfor %}
         {% else %}
             <div style="grid-column: 1 / -1; color: #1e3a8a; background: transparent; padding: 12px; border-radius: 6px;">No element found.</div>
         {% endif %}

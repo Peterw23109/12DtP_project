@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, request,session
+from flask import Flask, g, render_template, request, session, redirect, url_for
 import sqlite3
 
 DATABASE = 'element.db'
@@ -37,33 +37,57 @@ def quiz():
     global RANDOM_SYMBOL
     if "guesses" not in session:
         session["guesses"] = []
-
+    #select a random element from the database 
     if RANDOM_SYMBOL is None:
-        random_element = query_db("SELECT Element_ID FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
-        RANDOM_SYMBOL = random_element['Element_ID']
-    target_row = query_db("SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE", (RANDOM_SYMBOL,), one=True)
-
+        random_element = query_db("SELECT Element_name FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
+        RANDOM_SYMBOL = random_element['Element_name']
+    #the random element's info
+    target_row = query_db("""SELECT Element.*, state.state AS state_name, category.category AS category_name
+                            FROM Element LEFT JOIN state ON Element.State = state.id 
+                            LEFT JOIN category ON Element.Category = category.id 
+                            WHERE Element.Element_name = ? COLLATE NOCASE""", (RANDOM_SYMBOL,), one=True)
+    #get the user's guess
     if request.method == "POST":
         Element_ID = request.form.get("element")
-        row = query_db("SELECT * FROM Element WHERE Element_ID = ? COLLATE NOCASE",(Element_ID,),True)
+        row = query_db("""SELECT Element.*, state.state AS state_name, category.category AS category_name
+                          FROM Element LEFT JOIN state ON Element.State = state.id 
+                          LEFT JOIN category ON Element.Category = category.id 
+                          WHERE Element.Element_name = ? COLLATE NOCASE""", (Element_ID,), True)
+        #the user guessed an existing element, add it to the guess list
         if row:
             guesses = session["guesses"]
-            names = [g["Element_ID"].lower() for g in guesses]
+            names = [g["Element_name"].lower() for g in guesses]
             if Element_ID.lower() not in names:
                 guesses.insert(0, dict(row))
                 session["guesses"] = guesses
-
+        #the user type in a non-exist element
         if not row:
             invalid = "Invalid Element. Please try again."
 
+        #the user guessed the right element and start a new element
         if Element_ID and Element_ID.lower() == RANDOM_SYMBOL.lower():
             session["guesses"] = []
-            random_element = query_db( "SELECT Element_ID FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
-            RANDOM_SYMBOL = random_element['Element_ID']
+            random_element = query_db( "SELECT Element_name FROM Element ORDER BY RANDOM() LIMIT 1", one=True)
+            RANDOM_SYMBOL = random_element['Element_name']
             return render_template("result.html", answer=Element_ID)
+        
+    #calculate the remaining hints
+    remaining = 3 - session.get ("hint_count", 0)
+    return render_template("element.html", result=session["guesses"], random_symbol=RANDOM_SYMBOL, target=target_row, invalid=invalid, remaining=remaining)
+    
 
+@app.route('/hint')
+def hint():
+    #hint page, user can only access 3 hints, after that they will be told no more hints left
+    if "hint_count" not in session:
+        session["hint_count"] = 0
+    if session["hint_count"] >= 3:
+        return redirect(url_for('quiz'))
 
-    return render_template("element.html", result=session["guesses"], random_symbol=RANDOM_SYMBOL,target=target_row, invalid=invalid)
+    session["hint_count"] += 1
+
+    return render_template('hint.html', remaining=3 - session["hint_count"])
+
 
 if __name__ == "__main__":
     app.run(debug=True)
